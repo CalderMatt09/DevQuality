@@ -1,0 +1,491 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>7 Ways to Write Acceptance Criteria That Actually Prevent Bugs | DevQuality</title>
+  <meta name="description" content="Vague acceptance criteria are the silent killer of sprint velocity. Here are seven battle-tested techniques to write requirements that catch bugs before a single line of code is written."/>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;1,400&family=Source+Serif+4:wght@300;400;600&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --ink: #1a1a18;
+      --paper: #f7f4ee;
+      --accent: #c84b2f;
+      --muted: #7a7060;
+      --rule: #d9d3c5;
+      --code-bg: #edeae2;
+    }
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+
+    body {
+      background: var(--paper);
+      color: var(--ink);
+      font-family: 'Source Serif 4', Georgia, serif;
+      font-weight: 300;
+      font-size: 1.125rem;
+      line-height: 1.85;
+    }
+
+    /* ── Topbar ── */
+    .topbar {
+      border-bottom: 1px solid var(--rule);
+      padding: 1rem 2rem;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      position: sticky;
+      top: 0;
+      background: var(--paper);
+      z-index: 100;
+      animation: fadeDown 0.5s ease both;
+    }
+    .topbar a.logo {
+      font-family: 'Playfair Display', serif;
+      font-weight: 700;
+      font-size: 1.1rem;
+      color: var(--ink);
+      text-decoration: none;
+    }
+    .topbar a.logo span { color: var(--accent); }
+    .topbar nav a {
+      font-size: 0.78rem;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--muted);
+      text-decoration: none;
+      margin-left: 2rem;
+      transition: color 0.2s;
+    }
+    .topbar nav a:hover { color: var(--accent); }
+
+    /* ── Hero ── */
+    .hero {
+      max-width: 780px;
+      margin: 5rem auto 0;
+      padding: 0 2rem;
+      animation: fadeUp 0.7s 0.1s ease both;
+    }
+    .hero .tag {
+      display: inline-block;
+      font-size: 0.7rem;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: var(--accent);
+      border: 1px solid var(--accent);
+      padding: 0.25rem 0.7rem;
+      margin-bottom: 1.8rem;
+    }
+    .hero h1 {
+      font-family: 'Playfair Display', serif;
+      font-size: clamp(2rem, 5vw, 3.2rem);
+      font-weight: 700;
+      line-height: 1.15;
+      letter-spacing: -0.02em;
+      margin-bottom: 1.5rem;
+    }
+    .hero .meta {
+      display: flex;
+      align-items: center;
+      gap: 1.5rem;
+      font-size: 0.82rem;
+      color: var(--muted);
+      letter-spacing: 0.04em;
+      padding-bottom: 2.5rem;
+      border-bottom: 2px solid var(--ink);
+      margin-bottom: 3rem;
+    }
+    .hero .meta .author { color: var(--ink); font-weight: 600; }
+
+    /* ── Article ── */
+    .article {
+      max-width: 680px;
+      margin: 0 auto;
+      padding: 0 2rem 6rem;
+      animation: fadeUp 0.7s 0.3s ease both;
+    }
+
+    .article blockquote {
+      border-left: 3px solid var(--accent);
+      margin: 2.5rem 0;
+      padding: 0.5rem 0 0.5rem 1.8rem;
+      font-family: 'Playfair Display', serif;
+      font-style: italic;
+      font-size: 1.2rem;
+      line-height: 1.6;
+      color: var(--ink);
+    }
+
+    .article p { margin-bottom: 1.6rem; }
+
+    .article h2 {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.65rem;
+      font-weight: 700;
+      margin: 3.5rem 0 1rem;
+      letter-spacing: -0.02em;
+      line-height: 1.2;
+    }
+    .article h2::before {
+      content: '';
+      display: block;
+      width: 2rem;
+      height: 2px;
+      background: var(--accent);
+      margin-bottom: 0.8rem;
+    }
+
+    .article h3 {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.1rem;
+      font-weight: 700;
+      margin: 2rem 0 0.5rem;
+      letter-spacing: 0.01em;
+    }
+
+    .article hr {
+      border: none;
+      border-top: 1px solid var(--rule);
+      margin: 3rem 0;
+    }
+
+    .article ul, .article ol {
+      margin: 1rem 0 1.6rem 1.2rem;
+    }
+    .article ul li, .article ol li {
+      margin-bottom: 0.6rem;
+      padding-left: 0.4rem;
+    }
+    .article ul li::marker { color: var(--accent); }
+    .article ol li::marker { color: var(--accent); font-weight: 600; }
+
+    .article strong { font-weight: 600; }
+    .article em { font-style: italic; }
+
+    .article a {
+      color: var(--accent);
+      text-decoration: underline;
+      text-underline-offset: 3px;
+    }
+    .article a:hover { opacity: 0.75; }
+
+    /* Technique card */
+    .technique {
+      border: 1px solid var(--rule);
+      margin: 2.5rem 0;
+      overflow: hidden;
+    }
+    .technique-header {
+      background: var(--ink);
+      color: var(--paper);
+      padding: 0.9rem 1.5rem;
+      display: flex;
+      align-items: baseline;
+      gap: 1rem;
+    }
+    .technique-num {
+      font-family: 'Playfair Display', serif;
+      font-size: 0.75rem;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: var(--accent);
+      white-space: nowrap;
+    }
+    .technique-title {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.1rem;
+      font-weight: 700;
+    }
+    .technique-body {
+      padding: 1.5rem;
+    }
+    .technique-body p { margin-bottom: 1rem; font-size: 1rem; }
+    .technique-body p:last-child { margin-bottom: 0; }
+    .technique-body ul {
+      margin: 0.8rem 0 1rem 1rem;
+    }
+    .technique-body ul li { font-size: 1rem; margin-bottom: 0.4rem; }
+
+    /* Code / example block */
+    .example-block {
+      background: var(--code-bg);
+      border-left: 3px solid var(--accent);
+      padding: 1rem 1.4rem;
+      margin: 1rem 0;
+      font-family: 'Courier New', monospace;
+      font-size: 0.88rem;
+      line-height: 1.7;
+      color: var(--ink);
+    }
+
+    /* Problem / solution pill labels */
+    .label {
+      display: inline-block;
+      font-size: 0.65rem;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      padding: 0.2rem 0.6rem;
+      margin-bottom: 0.5rem;
+      font-weight: 600;
+    }
+    .label-problem { background: #f0e0da; color: #a03320; }
+    .label-solution { background: #daeada; color: #2a6a3a; }
+
+    /* Impact grid */
+    .impact-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1px;
+      background: var(--rule);
+      margin: 2rem 0;
+    }
+    .impact-cell {
+      background: var(--code-bg);
+      padding: 1.2rem 1.4rem;
+      font-size: 0.92rem;
+    }
+    .impact-cell strong {
+      display: block;
+      font-size: 0.72rem;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--muted);
+      margin-bottom: 0.3rem;
+    }
+
+    /* ── Footer ── */
+    footer {
+      border-top: 1px solid var(--rule);
+      padding: 2.5rem 2rem;
+      text-align: center;
+      font-size: 0.8rem;
+      color: var(--muted);
+      letter-spacing: 0.04em;
+    }
+    footer a { color: var(--muted); }
+
+    /* ── Animations ── */
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(22px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+    @keyframes fadeDown {
+      from { opacity: 0; transform: translateY(-10px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+
+    @media (max-width: 600px) {
+      .topbar nav { display: none; }
+      .hero, .article { padding-left: 1.2rem; padding-right: 1.2rem; }
+      .impact-grid { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+
+  <header class="topbar">
+    <a class="logo" href="/DevQuality/">Dev<span>Quality</span></a>
+    <nav>
+      <a href="/DevQuality/">All Posts</a>
+      <a href="https://tuskr.app/" target="_blank" rel="noopener">Tuskr ↗</a>
+    </nav>
+  </header>
+
+  <div class="hero">
+    <span class="tag">Agile · Requirements · QA</span>
+    <h1>7 Ways to Write Acceptance Criteria That Actually Prevent Bugs</h1>
+    <div class="meta">
+      <span class="author">Matt Calder</span>
+      <span>November 3, 2025</span>
+      <span>6 min read</span>
+    </div>
+  </div>
+
+  <article class="article">
+
+    <blockquote>
+      Nearly half of all software defects trace back to requirements problems — not code problems. The fix starts long before anyone opens their IDE.
+    </blockquote>
+
+    <p>Ambiguous acceptance criteria are one of the most expensive problems in software development, yet they rarely get the attention they deserve. Teams invest heavily in test automation, CI/CD pipelines, and code review — then quietly absorb the cost of requirements that were fuzzy from the start.</p>
+
+    <p>The data is sobering: requirements-related issues account for close to half of all software defects, and the cost of fixing them compounds the later they surface. A misunderstanding caught in a refinement session costs minutes. The same misunderstanding caught in production costs days — plus the goodwill of whoever was affected.</p>
+
+    <p>What follows are seven techniques that shift quality left, turning acceptance criteria from vague wish lists into precise contracts that align your entire team before work begins.</p>
+
+    <hr>
+
+    <!-- TECHNIQUE 1 -->
+    <div class="technique">
+      <div class="technique-header">
+        <span class="technique-num">Technique 01</span>
+        <span class="technique-title">Use BDD Format to Eliminate Interpretation</span>
+      </div>
+      <div class="technique-body">
+        <span class="label label-problem">The Problem</span>
+        <p>Abstract requirements like "the system should be fast" or "login should work correctly" are interpreted differently by every person who reads them. That gap between interpretations is where bugs are born.</p>
+        <span class="label label-solution">The Approach</span>
+        <p>Behaviour-Driven Development's <strong>Given / When / Then</strong> structure forces you to specify preconditions, actions, and measurable outcomes explicitly. There's no room left for assumption.</p>
+        <div class="example-block">GIVEN a registered user on the login screen<br>WHEN they submit valid credentials<br>THEN they are redirected to the dashboard within 2 seconds<br>AND their display name appears in the top navigation bar</div>
+        <p>Teams that adopt this format consistently report a 25–30% drop in requirement-related defects — simply because the criteria are now <em>testable by design</em>.</p>
+      </div>
+    </div>
+
+    <!-- TECHNIQUE 2 -->
+    <div class="technique">
+      <div class="technique-header">
+        <span class="technique-num">Technique 02</span>
+        <span class="technique-title">Run Every Criterion Through a Testability Check</span>
+      </div>
+      <div class="technique-body">
+        <span class="label label-problem">The Problem</span>
+        <p>Words like "user-friendly," "seamless," and "responsive" appear in acceptance criteria constantly. None of them can be verified. They're feelings masquerading as requirements.</p>
+        <span class="label label-solution">The Approach</span>
+        <p>Before a criterion is accepted, it should pass four questions:</p>
+        <ul>
+          <li>Can a tester verify this objectively, without judgement calls?</li>
+          <li>Is the expected outcome measurable or directly observable?</li>
+          <li>Are the inputs and preconditions fully specified?</li>
+          <li>Does it define what <em>shouldn't</em> happen, not just what should?</li>
+        </ul>
+        <p>Take "search should return relevant results quickly" and turn it into: <em>"Search results should appear within 1 second when a user types at least 3 characters, sorted by relevance score descending."</em> That's a criterion you can actually test.</p>
+      </div>
+    </div>
+
+    <!-- TECHNIQUE 3 -->
+    <div class="technique">
+      <div class="technique-header">
+        <span class="technique-num">Technique 03</span>
+        <span class="technique-title">Document Boundary Conditions Explicitly</span>
+      </div>
+      <div class="technique-body">
+        <span class="label label-problem">The Problem</span>
+        <p>Most acceptance criteria describe the happy path. The bugs that reach production live at the edges — the boundaries nobody wrote down because they seemed obvious at the time.</p>
+        <span class="label label-solution">The Approach</span>
+        <p>Make boundary conditions a mandatory part of every acceptance criterion. For any feature involving data or inputs, explicitly define:</p>
+        <ul>
+          <li>Minimum and maximum acceptable values</li>
+          <li>Performance expectations under realistic load</li>
+          <li>Volume thresholds and what happens when they're exceeded</li>
+          <li>Cross-platform and cross-browser expectations</li>
+          <li>Error states and the exact messaging users should see</li>
+        </ul>
+        <p>Instead of "the system should handle large files," write: <em>"Files between 1KB and 100MB are accepted. Files outside this range trigger a specific error message. Files under 10MB are processed within 30 seconds."</em></p>
+      </div>
+    </div>
+
+    <!-- TECHNIQUE 4 -->
+    <div class="technique">
+      <div class="technique-header">
+        <span class="technique-num">Technique 04</span>
+        <span class="technique-title">Bring Three Perspectives to Every Story</span>
+      </div>
+      <div class="technique-body">
+        <span class="label label-problem">The Problem</span>
+        <p>When a product owner writes acceptance criteria alone, they capture business intent well — but miss technical constraints and testing complexity. The result is criteria that sound complete but create problems the moment implementation begins.</p>
+        <span class="label label-solution">The Approach</span>
+        <p>Run short "Three Amigos" sessions with one representative each from product, development, and QA. Each brings a lens the others lack:</p>
+        <ul>
+          <li><strong>Product</strong> — ensures the business value is clearly articulated</li>
+          <li><strong>Development</strong> — flags technical constraints and edge cases</li>
+          <li><strong>QA</strong> — challenges testability and surfaces missing scenarios</li>
+        </ul>
+        <p>Teams that run these sessions regularly report not just fewer defects, but a measurable reduction in mid-sprint clarification requests — one of the most disruptive forms of context-switching a developer faces.</p>
+      </div>
+    </div>
+
+    <!-- TECHNIQUE 5 -->
+    <div class="technique">
+      <div class="technique-header">
+        <span class="technique-num">Technique 05</span>
+        <span class="technique-title">Enforce a Definition of Ready</span>
+      </div>
+      <div class="technique-body">
+        <span class="label label-problem">The Problem</span>
+        <p>Stories enter sprints incomplete. Developers make reasonable assumptions. Those assumptions diverge from what product intended. The story carries over. The cycle repeats.</p>
+        <span class="label label-solution">The Approach</span>
+        <p>A strict Definition of Ready acts as a quality gate before work begins. No story enters the sprint unless all criteria are met:</p>
+        <ul>
+          <li>All acceptance criteria written before sprint planning begins</li>
+          <li>Each criterion follows a consistent, testable format</li>
+          <li>Edge cases and error conditions are explicitly specified</li>
+          <li>Performance requirements are quantified, not described</li>
+          <li>Any UI expectations are accompanied by mockups or references</li>
+        </ul>
+        <p>Organisations that enforce this rigorously report 40–50% fewer stories carrying over between sprints due to mid-sprint clarifications.</p>
+      </div>
+    </div>
+
+    <!-- TECHNIQUE 6 -->
+    <div class="technique">
+      <div class="technique-header">
+        <span class="technique-num">Technique 06</span>
+        <span class="technique-title">Treat Acceptance Criteria as Living Documentation</span>
+      </div>
+      <div class="technique-body">
+        <span class="label label-problem">The Problem</span>
+        <p>Software evolves constantly. Acceptance criteria written at story creation often don't get updated when implementation details change, leaving a growing gap between what the spec says and what the system actually does. That gap accumulates silently until it becomes a source of subtle, hard-to-diagnose defects.</p>
+        <span class="label label-solution">The Approach</span>
+        <p>Maintain acceptance criteria as living documents with direct links to the test cases that verify them. When functionality changes, the criteria change too. When tests are updated, that update is traceable back to a requirement.</p>
+        <p>Platforms like <strong><a href="https://tuskr.app/" target="_blank" rel="noopener">Tuskr</a></strong> are built to maintain exactly this kind of requirement-to-test traceability — ensuring that your acceptance criteria stay anchored to the tests that prove them, rather than drifting into irrelevance as the product matures. That connection between specification and verification is what separates documentation that helps from documentation that misleads.</p>
+      </div>
+    </div>
+
+    <!-- TECHNIQUE 7 -->
+    <div class="technique">
+      <div class="technique-header">
+        <span class="technique-num">Technique 07</span>
+        <span class="technique-title">Use Example Mapping to Surface Hidden Assumptions</span>
+      </div>
+      <div class="technique-body">
+        <span class="label label-problem">The Problem</span>
+        <p>Even well-written acceptance criteria can conceal unstated business rules and assumptions — the kind that only surface during development or, worse, during a demo.</p>
+        <span class="label label-solution">The Approach</span>
+        <p>Example mapping is a lightweight workshop technique that exposes this hidden complexity before a single line of code is written. Using four colours of index cards (or their digital equivalents):</p>
+        <ul>
+          <li><strong>Yellow</strong> — the user story</li>
+          <li><strong>Blue</strong> — each acceptance criterion</li>
+          <li><strong>Green</strong> — concrete examples that illustrate each criterion</li>
+          <li><strong>Red</strong> — questions and unresolved edge cases</li>
+        </ul>
+        <p>The red cards are the most valuable output. They represent assumptions your team didn't even know it was making. Teams using example mapping typically identify 60–70% of potential ambiguities before development starts — converting expensive production bugs into cheap refinement conversations.</p>
+      </div>
+    </div>
+
+    <hr>
+
+    <h2>What Better Criteria Actually Deliver</h2>
+
+    <p>Well-crafted acceptance criteria don't just prevent defects — they change the texture of an entire sprint. When requirements are precise and shared:</p>
+
+    <div class="impact-grid">
+      <div class="impact-cell"><strong>Test planning</strong>Becomes comprehensive from day one — no gaps to discover mid-cycle</div>
+      <div class="impact-cell"><strong>Test case creation</strong>Requires fewer clarification loops with product and dev</div>
+      <div class="impact-cell"><strong>Automation</strong>Aligns naturally with requirements, reducing maintenance overhead</div>
+      <div class="impact-cell"><strong>Bug reports</strong>Decline because expectations were never ambiguous in the first place</div>
+      <div class="impact-cell"><strong>Regression testing</strong>Becomes targeted rather than exhaustive</div>
+      <div class="impact-cell"><strong>Sprint predictability</strong>Improves as carryover from clarification needs drops sharply</div>
+    </div>
+
+    <hr>
+
+    <h2>Quality Starts With the Words We Write</h2>
+
+    <p>Improving acceptance criteria isn't a documentation exercise. It's a cultural shift — a decision to make prevention the team's primary quality strategy rather than detection.</p>
+
+    <p>The seven techniques here work together. BDD formatting makes criteria testable. Boundary conditions close the edge-case gaps. Three Amigos sessions bring in perspectives that a single author always misses. The Definition of Ready keeps incomplete work out of the sprint. Living documentation prevents specification drift. Example mapping surfaces what nobody knew they didn't know.</p>
+
+    <p>You don't need to implement all seven at once. Pick the one that addresses your team's most painful defect pattern and start there. The compounding effect of clearer requirements reaches every downstream stage — testing, delivery, and ultimately, the experience of every user who encounters your product.</p>
+
+    <p style="margin-top:2.5rem; font-style:italic; color: var(--muted); font-size:0.95rem;">Which of these techniques has made the biggest difference on your team? Share your experience in the comments.</p>
+
+  </article>
+
+  <footer>
+    <p>© 2025 DevQuality Blog &nbsp;·&nbsp; <a href="https://tuskr.app/" target="_blank" rel="noopener">Powered by Tuskr</a></p>
+  </footer>
+
+</body>
+</html>
