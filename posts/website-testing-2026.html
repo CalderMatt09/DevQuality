@@ -1,0 +1,560 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Website Testing in 2026: The Complete QA Framework for Modern Web Teams | DevQuality</title>
+  <meta name="description" content="A complete guide to website testing in 2026 — functional, performance, security, accessibility, and the strategic decisions that determine whether your QA programme prevents defects or just records them."/>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;1,400&family=Source+Serif+4:wght@300;400;600&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --ink: #1a1a18;
+      --paper: #f7f4ee;
+      --accent: #c84b2f;
+      --muted: #7a7060;
+      --rule: #d9d3c5;
+      --code-bg: #edeae2;
+      --dark-bg: #1a1a18;
+    }
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+
+    body {
+      background: var(--paper);
+      color: var(--ink);
+      font-family: 'Source Serif 4', Georgia, serif;
+      font-weight: 300;
+      font-size: 1.125rem;
+      line-height: 1.85;
+    }
+
+    /* ── Topbar ── */
+    .topbar {
+      border-bottom: 1px solid var(--rule);
+      padding: 1rem 2rem;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      position: sticky;
+      top: 0;
+      background: var(--paper);
+      z-index: 100;
+      animation: fadeDown 0.5s ease both;
+    }
+    .topbar a.logo {
+      font-family: 'Playfair Display', serif;
+      font-weight: 700;
+      font-size: 1.1rem;
+      color: var(--ink);
+      text-decoration: none;
+    }
+    .topbar a.logo span { color: var(--accent); }
+    .topbar nav a {
+      font-size: 0.78rem;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--muted);
+      text-decoration: none;
+      margin-left: 2rem;
+      transition: color 0.2s;
+    }
+    .topbar nav a:hover { color: var(--accent); }
+
+    /* ── Hero ── */
+    .hero {
+      max-width: 780px;
+      margin: 5rem auto 0;
+      padding: 0 2rem;
+      animation: fadeUp 0.7s 0.1s ease both;
+    }
+    .hero .tag {
+      display: inline-block;
+      font-size: 0.7rem;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: var(--accent);
+      border: 1px solid var(--accent);
+      padding: 0.25rem 0.7rem;
+      margin-bottom: 1.8rem;
+    }
+    .hero h1 {
+      font-family: 'Playfair Display', serif;
+      font-size: clamp(2rem, 5vw, 3.2rem);
+      font-weight: 700;
+      line-height: 1.15;
+      letter-spacing: -0.02em;
+      margin-bottom: 1.5rem;
+    }
+    .hero .standfirst {
+      font-size: 1.2rem;
+      color: var(--muted);
+      font-style: italic;
+      line-height: 1.6;
+      margin-bottom: 1.5rem;
+    }
+    .hero .meta {
+      display: flex;
+      align-items: center;
+      gap: 1.5rem;
+      font-size: 0.82rem;
+      color: var(--muted);
+      letter-spacing: 0.04em;
+      padding-bottom: 2.5rem;
+      border-bottom: 2px solid var(--ink);
+      margin-bottom: 3rem;
+    }
+    .hero .meta .author { color: var(--ink); font-weight: 600; }
+
+    /* ── Article ── */
+    .article {
+      max-width: 680px;
+      margin: 0 auto;
+      padding: 0 2rem 6rem;
+      animation: fadeUp 0.7s 0.3s ease both;
+    }
+
+    .article p { margin-bottom: 1.6rem; }
+
+    .article h2 {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.7rem;
+      font-weight: 700;
+      margin: 4rem 0 1rem;
+      letter-spacing: -0.02em;
+      line-height: 1.2;
+    }
+    .article h2::before {
+      content: '';
+      display: block;
+      width: 2rem;
+      height: 2px;
+      background: var(--accent);
+      margin-bottom: 0.8rem;
+    }
+
+    .article h3 {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.2rem;
+      font-weight: 700;
+      margin: 2.5rem 0 0.6rem;
+      letter-spacing: -0.01em;
+    }
+
+    .article blockquote {
+      border-left: 3px solid var(--accent);
+      margin: 2.5rem 0;
+      padding: 0.5rem 0 0.5rem 1.8rem;
+      font-family: 'Playfair Display', serif;
+      font-style: italic;
+      font-size: 1.2rem;
+      line-height: 1.6;
+      color: var(--ink);
+    }
+
+    .article hr {
+      border: none;
+      border-top: 1px solid var(--rule);
+      margin: 3rem 0;
+    }
+
+    .article ul, .article ol {
+      margin: 0.8rem 0 1.6rem 1.2rem;
+    }
+    .article ul li, .article ol li {
+      margin-bottom: 0.6rem;
+      padding-left: 0.4rem;
+    }
+    .article ul li::marker { color: var(--accent); }
+    .article ol li::marker { color: var(--accent); font-weight: 600; }
+
+    .article strong { font-weight: 600; }
+    .article em { font-style: italic; }
+
+    .article a {
+      color: var(--accent);
+      text-decoration: underline;
+      text-underline-offset: 3px;
+    }
+    .article a:hover { opacity: 0.75; }
+
+    /* ── Discipline cards (horizontal strip) ── */
+    .discipline-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 2px;
+      background: var(--rule);
+      margin: 2rem 0 3rem;
+    }
+    .discipline-card {
+      background: var(--paper);
+      padding: 1.4rem 1.6rem;
+    }
+    .discipline-card h4 {
+      font-family: 'Playfair Display', serif;
+      font-size: 1rem;
+      font-weight: 700;
+      margin-bottom: 0.5rem;
+    }
+    .discipline-card p {
+      font-size: 0.88rem;
+      color: var(--muted);
+      line-height: 1.6;
+      margin: 0;
+    }
+    .discipline-card .dc-num {
+      font-size: 0.65rem;
+      letter-spacing: 0.16em;
+      text-transform: uppercase;
+      color: var(--accent);
+      margin-bottom: 0.4rem;
+    }
+
+    /* ── Pull stat ── */
+    .pull-stat {
+      background: var(--dark-bg);
+      color: var(--paper);
+      padding: 2rem 2.5rem;
+      margin: 3rem 0;
+      display: flex;
+      align-items: baseline;
+      gap: 1.5rem;
+    }
+    .pull-stat .number {
+      font-family: 'Playfair Display', serif;
+      font-size: 3.5rem;
+      font-weight: 700;
+      color: var(--accent);
+      line-height: 1;
+      flex-shrink: 0;
+    }
+    .pull-stat .context {
+      font-size: 0.95rem;
+      line-height: 1.6;
+      color: #c8c0b0;
+    }
+
+    /* ── Callout box ── */
+    .callout {
+      background: var(--code-bg);
+      border-left: 3px solid var(--ink);
+      padding: 1.4rem 1.8rem;
+      margin: 2rem 0;
+      font-size: 0.95rem;
+    }
+    .callout .callout-label {
+      font-size: 0.65rem;
+      letter-spacing: 0.16em;
+      text-transform: uppercase;
+      color: var(--muted);
+      margin-bottom: 0.5rem;
+      font-weight: 600;
+    }
+    .callout p { margin: 0; }
+
+    /* ── Metrics table ── */
+    .metrics-table {
+      width: 100%;
+      border-collapse: collapse;
+      margin: 1.5rem 0 2rem;
+      font-size: 0.9rem;
+    }
+    .metrics-table th {
+      text-align: left;
+      font-size: 0.65rem;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: var(--muted);
+      border-bottom: 2px solid var(--ink);
+      padding: 0.5rem 0.8rem;
+    }
+    .metrics-table td {
+      padding: 0.8rem;
+      border-bottom: 1px solid var(--rule);
+      vertical-align: top;
+      line-height: 1.5;
+    }
+    .metrics-table tr:last-child td { border-bottom: none; }
+    .metrics-table td:first-child { font-weight: 600; white-space: nowrap; }
+    .metrics-table .badge {
+      display: inline-block;
+      font-size: 0.65rem;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      padding: 0.15rem 0.5rem;
+      background: var(--accent);
+      color: white;
+      margin-left: 0.5rem;
+      vertical-align: middle;
+    }
+
+    /* ── Pitfall list ── */
+    .pitfall {
+      border-top: 1px solid var(--rule);
+      padding: 1.5rem 0;
+    }
+    .pitfall:last-of-type { border-bottom: 1px solid var(--rule); }
+    .pitfall h4 {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.05rem;
+      font-weight: 700;
+      margin-bottom: 0.5rem;
+      display: flex;
+      align-items: center;
+      gap: 0.8rem;
+    }
+    .pitfall h4::before {
+      content: '✕';
+      color: var(--accent);
+      font-size: 0.8rem;
+      font-family: sans-serif;
+    }
+    .pitfall p { font-size: 0.95rem; color: var(--muted); margin: 0; }
+
+    /* ── Footer ── */
+    footer {
+      border-top: 1px solid var(--rule);
+      padding: 2.5rem 2rem;
+      text-align: center;
+      font-size: 0.8rem;
+      color: var(--muted);
+      letter-spacing: 0.04em;
+    }
+    footer a { color: var(--muted); }
+
+    /* ── Animations ── */
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(22px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+    @keyframes fadeDown {
+      from { opacity: 0; transform: translateY(-10px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+
+    @media (max-width: 600px) {
+      .topbar nav { display: none; }
+      .hero, .article { padding-left: 1.2rem; padding-right: 1.2rem; }
+      .discipline-grid { grid-template-columns: 1fr; }
+      .pull-stat { flex-direction: column; gap: 0.5rem; }
+      .pull-stat .number { font-size: 2.5rem; }
+      .metrics-table { font-size: 0.82rem; }
+    }
+  </style>
+</head>
+<body>
+
+  <header class="topbar">
+    <a class="logo" href="/DevQuality/">Dev<span>Quality</span></a>
+    <nav>
+      <a href="/DevQuality/">All Posts</a>
+      <a href="https://tuskr.app/" target="_blank" rel="noopener">Tuskr ↗</a>
+    </nav>
+  </header>
+
+  <div class="hero">
+    <span class="tag">Website Testing · QA Strategy · 2026</span>
+    <h1>Website Testing in 2026: The Complete QA Framework for Modern Web Teams</h1>
+    <p class="standfirst">88% of users won't return after a poor experience. Here's how to build the testing programme that makes sure yours isn't the one they leave.</p>
+    <div class="meta">
+      <span class="author">Matt Calder</span>
+      <span>March 2026</span>
+      <span>12 min read</span>
+    </div>
+  </div>
+
+  <article class="article">
+
+    <p>Website testing has transformed more in the last five years than in the decade before it. What once meant a pre-launch checklist handled by a small QA team is now a continuous, multi-disciplinary practice that runs in parallel with development, feeds directly into product decisions, and has a measurable connection to revenue.</p>
+
+    <p>After fifteen years building QA programmes across e-commerce and SaaS platforms, the pattern is clear: organisations that position website testing as a final release gate consistently lose ground to those that treat it as an ongoing discipline. This guide covers the full testing landscape — functional, performance, security, accessibility, and everything in between — along with the strategic decisions that determine whether your programme actually prevents defects or simply catalogues them after the damage is done.</p>
+
+    <hr>
+
+    <h2>What Website Testing Actually Covers in 2026</h2>
+
+    <p>Website testing is not a single activity. It is a collection of disciplines, each targeting a different quality dimension, each requiring different skills, tools, and timing within the development lifecycle. Most teams underinvest in at least two or three of the following areas — often without realising it until a production incident makes the gap visible.</p>
+
+    <div class="discipline-grid">
+      <div class="discipline-card">
+        <div class="dc-num">01</div>
+        <h4>Functional Testing</h4>
+        <p>Verifies the website does what it's designed to do — forms, navigation, queries, and flows. The foundation of any QA programme, and the area where teams most commonly over-index on happy paths while undercovering edge cases.</p>
+      </div>
+      <div class="discipline-card">
+        <div class="dc-num">02</div>
+        <h4>Cross-Browser Compatibility</h4>
+        <p>Chrome, Firefox, Safari, and Edge each interpret CSS and JavaScript differently. Mobile browser behaviour adds further variation. Prioritise coverage based on your actual traffic distribution, not assumptions.</p>
+      </div>
+      <div class="discipline-card">
+        <div class="dc-num">03</div>
+        <h4>Responsive Design</h4>
+        <p>Mobile devices account for over 60% of global web traffic. Test on real hardware — emulators don't replicate actual touch behaviour, GPU rendering, or the performance constraints of physical devices.</p>
+      </div>
+      <div class="discipline-card">
+        <div class="dc-num">04</div>
+        <h4>Performance & Load</h4>
+        <p>Google's Core Web Vitals are ranking signals. A page that loads in 2 seconds for one user may become unusable under 500 concurrent sessions. Establish performance budgets and test against them throughout development.</p>
+      </div>
+      <div class="discipline-card">
+        <div class="dc-num">05</div>
+        <h4>Security Testing</h4>
+        <p>SQL injection, XSS, broken access controls — these aren't theoretical threats. Combine automated scanning in your CI/CD pipeline with periodic specialist penetration testing for continuous rather than periodic coverage.</p>
+      </div>
+      <div class="discipline-card">
+        <div class="dc-num">06</div>
+        <h4>Accessibility Testing</h4>
+        <p>WCAG 2.1 compliance ensures your site works for people with visual, auditory, motor, and cognitive disabilities — roughly 15% of the global population. Accessibility isn't just ethical; it's a measurable market.</p>
+      </div>
+    </div>
+
+    <hr>
+
+    <h2>Building a Testing Strategy That Holds Up</h2>
+
+    <h3>Start with a test plan, not a test list</h3>
+
+    <p>A test plan is a strategic document. It defines testing objectives, scope, methodology, resource requirements, schedule, entry and exit criteria, and a risk assessment. A test list is just a pile of things to check. The difference is consequential: a test plan forces you to make deliberate decisions about priorities and trade-offs before testing begins — not during it, when pressure is highest.</p>
+
+    <p>Test plans don't need to be long. A single well-structured page that everyone has read is worth more than a fifty-page document that lives in a folder no one opens.</p>
+
+    <h3>Cover the full scenario spectrum</h3>
+
+    <p>Effective test cases address three distinct scenarios: the expected path (what users are meant to do), the negative path (what happens when they do something unintended), and boundary conditions (what happens at the edges of valid input). Most teams cover the first thoroughly. The second and third are where production defects tend to originate.</p>
+
+    <p>Keeping test cases in a structured system ensures they stay traceable to the requirements they validate, reproducible across team members, and reusable across releases. <strong><a href="https://tuskr.app/" target="_blank" rel="noopener">Tuskr</a></strong> is purpose-built for exactly this — linking test cases directly to requirements and tracking execution results without the administrative overhead that makes legacy enterprise platforms so painful to maintain. When test cases are connected to the requirements they verify, the impact of any change becomes immediately visible.</p>
+
+    <h3>Automate strategically, not exhaustively</h3>
+
+    <p>Automation is a means to faster, more reliable feedback — not a goal in itself. The strongest candidates for automation are regression suites (high frequency, stable functionality), data-driven tests (identical logic across multiple input sets), and performance checks (consistent measurement requires consistent execution conditions).</p>
+
+    <p>The weakest candidates are exploratory testing, usability assessment, and anything requiring human judgement about subjective quality. Over-automating is a genuine risk: brittle test suites that fracture with every UI change consume more maintenance effort than they save in execution time.</p>
+
+    <div class="callout">
+      <div class="callout-label">Practitioner Note</div>
+      <p>If your automated suite requires significant maintenance after routine UI updates, it's a signal that you've automated at the wrong level of abstraction. Test behaviour, not implementation details.</p>
+    </div>
+
+    <h3>Integrate testing into your CI/CD pipeline</h3>
+
+    <p>Tests that only run before releases catch defects late. Tests that run on every commit catch defects while the relevant code is still fresh in the developer's mind. Integrating automated checks into your continuous integration pipeline means developers receive feedback within minutes of pushing — which dramatically reduces both the cost and the cognitive load of addressing what they find.</p>
+
+    <hr>
+
+    <h2>Specialised Areas That Often Get Overlooked</h2>
+
+    <h3>E-commerce platforms</h3>
+
+    <p>E-commerce testing carries financial stakes that other website categories don't. Payment gateway integration, inventory synchronisation, promotional rule logic, tax calculation accuracy, and checkout recovery flows all require dedicated coverage. A defect in any of these areas doesn't merely frustrate a user — it directly costs the business money or creates accounting discrepancies that are difficult to unwind after the fact.</p>
+
+    <h3>CMS-based websites</h3>
+
+    <p>Sites built on WordPress, Drupal, or comparable platforms introduce testing complexity at the plugin and theme layer. Compatibility between plugins, template rendering across content types, and editorial workflow functionality all need verification — particularly following updates, which are a persistent source of regressions on CMS-driven properties.</p>
+
+    <h3>Third-party integrations</h3>
+
+    <p>Modern websites depend on external services for analytics, advertising, live chat, payment processing, and social proof. Each dependency is a failure point outside your direct control. Integration testing verifies that these components interact correctly with your core application, and that their failure modes degrade gracefully rather than breaking the critical journeys your users depend on.</p>
+
+    <div class="pull-stat">
+      <span class="number">50%</span>
+      <span class="context">of software defects trace back to requirements and specification problems — not code errors. Which means the most effective testing investment often happens before a line of code is written.</span>
+    </div>
+
+    <hr>
+
+    <h2>Measuring Whether Your Testing Is Working</h2>
+
+    <p>Testing effort that can't be measured can't be improved. The metrics worth tracking divide into two categories: technical quality indicators and user behaviour signals.</p>
+
+    <table class="metrics-table">
+      <thead>
+        <tr>
+          <th>Metric</th>
+          <th>What It Tells You</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>Defect Escape Rate <span class="badge">Primary</span></td>
+          <td>The proportion of bugs discovered in production versus in testing. The single most honest indicator of programme maturity.</td>
+        </tr>
+        <tr>
+          <td>Test Coverage %</td>
+          <td>What proportion of functionality has corresponding test cases. Useful as a floor metric, not a ceiling target.</td>
+        </tr>
+        <tr>
+          <td>Automation Rate</td>
+          <td>Percentage of your regression suite that runs automatically. High rates only matter if the suite is reliable and well-maintained.</td>
+        </tr>
+        <tr>
+          <td>Mean Time to Resolve</td>
+          <td>Average time from defect discovery to verified fix. Reveals process bottlenecks as much as technical ones.</td>
+        </tr>
+        <tr>
+          <td>Bounce Rate by Page</td>
+          <td>A spike after a release is a quality signal worth investigating, even without a formal defect report.</td>
+        </tr>
+        <tr>
+          <td>Conversion Funnel Drop-off</td>
+          <td>Changes in completion rates through checkout or signup flows often surface functional regressions before they're reported.</td>
+        </tr>
+      </tbody>
+    </table>
+
+    <blockquote>
+      A team that catches most defects in QA will have a low escape rate. A team that catches most defects in production has a testing problem — regardless of how many test cases it has written.
+    </blockquote>
+
+    <hr>
+
+    <h2>The Pitfalls That Undermine Good Testing Programmes</h2>
+
+    <div class="pitfall">
+      <h4>Treating mobile as an afterthought</h4>
+      <p>Despite mobile accounting for the majority of web traffic, many teams test primarily on desktop and run a secondary mobile pass. The result is a disproportionate share of production defects on the device type most of your users are actually on. Test mobile first. Desktop becomes the secondary verification.</p>
+    </div>
+
+    <div class="pitfall">
+      <h4>No defined performance baselines</h4>
+      <p>Performance issues discovered after launch are exponentially more expensive to resolve because they often reflect architectural decisions rather than isolated code bugs. Establish performance budgets — target thresholds for load time, Core Web Vitals, and server response — and validate against them throughout development, not just before release.</p>
+    </div>
+
+    <div class="pitfall">
+      <h4>Treating security as a periodic gate</h4>
+      <p>A once-a-year audit or a pre-launch security review is no longer adequate for publicly accessible web applications. Automated vulnerability scanning in your CI/CD pipeline, combined with developer training on common attack vectors, provides continuous protection rather than periodic snapshots. The organisations most damaged by breaches are frequently those that tested security thoroughly — once, years prior.</p>
+    </div>
+
+    <div class="pitfall">
+      <h4>Neglecting accessibility until legal pressure arrives</h4>
+      <p>Accessibility retrofits are significantly more expensive than building accessibly from the start. Keyboard navigation, colour contrast, screen reader compatibility, and meaningful alt text are far cheaper to implement during development than to audit and remediate across an existing codebase.</p>
+    </div>
+
+    <hr>
+
+    <h2>Where Website Testing Is Heading in 2026 and Beyond</h2>
+
+    <p>AI-assisted testing has moved from experimental to operational. Tools that generate test cases from user stories, identify high-risk code changes that warrant additional coverage, and automatically flag visual regressions are in active use at mature QA organisations today. The effect isn't that human testers become redundant — it's that they redirect time from repeatable mechanical work toward the investigative, creative testing that machines still can't replicate.</p>
+
+    <p>Progressive Web Apps continue to blur the line between web and native application testing. Offline functionality, push notifications, and hardware API access now fall within the scope of website testing for teams building PWAs — requiring QA practitioners to develop competencies that span both disciplines.</p>
+
+    <p>The organisations that will differentiate on web quality over the next few years won't necessarily be those with the largest test suites. They'll be the ones that have embedded testing into the development culture deeply enough that it happens continuously — not as a gate before release, but as a natural part of how the team works.</p>
+
+    <hr>
+
+    <h2>Where to Start</h2>
+
+    <p>Effective website testing is a continuous practice, not a pre-launch phase. The organisations that treat it as such — investing in structured test planning, targeted automation, integrated security scanning, and genuine accessibility coverage — consistently outperform those that treat quality as a final checkbox.</p>
+
+    <p>If you're assessing where to begin, identify your highest defect escape rate. The area where the most bugs reach production is the area where your testing programme needs the most attention. Start there, instrument it properly, and let the data guide the next investment.</p>
+
+    <p style="margin-top:2.5rem; font-style:italic; color: var(--muted); font-size:0.95rem;">What's the biggest gap in your current website testing programme? Share your experience in the comments.</p>
+
+  </article>
+
+  <footer>
+    <p>© 2026 DevQuality Blog &nbsp;·&nbsp; <a href="https://tuskr.app/" target="_blank" rel="noopener">Powered by Tuskr</a></p>
+  </footer>
+
+</body>
+</html>
